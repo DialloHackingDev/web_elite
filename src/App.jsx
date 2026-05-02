@@ -8,7 +8,8 @@ import {
   Activity, ChevronRight, Menu, X, Sun, Moon, Printer, Share2, ShieldAlert
 } from 'lucide-react';
 
-const API_BASE_URL = 'http://localhost:3000/api';
+// Use Vite env var when available, otherwise fallback to localhost
+const API_BASE_URL = (import.meta.env && import.meta.env.VITE_API_BASE_URL) || 'http://localhost:3000/api';
 
 // --- COMPOSANTS UI RÉUTILISABLES ---
 
@@ -161,9 +162,19 @@ function App() {
 
   // Stats Logic
   useEffect(() => {
+    let mounted = true;
     axios.get(`${API_BASE_URL}/dashboard/kpis`)
-      .then(res => setStats({ total: res.data.data.totalBirths }))
-      .catch(() => {});
+      .then(res => {
+        if (!mounted) return;
+        // Support multiple response shapes
+        const data = res.data?.data || res.data;
+        const total = data?.totalBirths || data?.total || data?.totalBirthsCount || data?.count || 0;
+        setStats({ total });
+      })
+      .catch(err => {
+        console.error('Erreur fetching KPIs:', err?.response?.data || err.message);
+      });
+    return () => { mounted = false; };
   }, []);
 
   // Verification Logic
@@ -183,7 +194,12 @@ function App() {
       const response = await axios.post(`${API_BASE_URL}${endpoint}`, body);
       setResult(response.data.data);
     } catch (err) {
-      setError(err.response?.data?.message || "Erreur de communication avec le serveur.");
+      // Log complet pour le debug (ne rien cacher)
+      console.error('Erreur verify:', err);
+      const status = err.response?.status;
+      const body = err.response?.data;
+      const message = body?.message || body?.error || err.message || 'Erreur de communication avec le serveur.';
+      setError(`${status ? `HTTP ${status} - ` : ''}${message}`);
     } finally {
       setLoading(false);
     }
