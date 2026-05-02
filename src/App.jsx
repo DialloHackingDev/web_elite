@@ -258,7 +258,7 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 md:px-6 h-16 md:h-20 flex items-center justify-between">
           <div className="flex items-center gap-2 md:gap-3">
             <div className="bg-indigo-600 p-1.5 md:p-2 rounded-lg md:rounded-xl shadow-lg shadow-indigo-200 dark:shadow-none"><ShieldCheck className="text-white w-5 h-5 md:w-6 md:h-6" /></div>
-            <span className="font-black text-lg md:text-2xl tracking-tighter dark:text-white">Sovereign Trust</span>
+            <span className="font-black text-lg md:text-2xl tracking-tighter dark:text-white">NaissanceChain</span>
           </div>
           <div className="flex items-center gap-3 md:gap-6">
             <button onClick={toggleTheme} className="p-2 md:p-2.5 rounded-lg md:rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:scale-110 transition-transform">
