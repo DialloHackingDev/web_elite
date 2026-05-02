@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* Force le mode sombre basé sur la classe .dark */
+@variant dark (&:where(.dark, .dark *));
+
+body {
+  @apply transition-colors duration-300;
+}
+
+:root {
+  --scan-size: 280px;
+}
+
+@keyframes scan {
+  0% { transform: translateY(0); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(var(--scan-size)); opacity: 0; }
+}
+
+.scanner-line {
+  @apply absolute left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-indigo-400 to-transparent z-20 pointer-events-none;
+  animation: scan 2s linear infinite;
+}
+
+.scanner-corner {
+  @apply absolute w-6 h-6 border-indigo-500 z-20;
+}
+
+.scanner-corner-tl { @apply top-0 left-0 border-t-4 border-l-4 rounded-tl-lg; }
+.scanner-corner-tr { @apply top-0 right-0 border-t-4 border-r-4 rounded-tr-lg; }
+.scanner-corner-bl { @apply bottom-0 left-0 border-b-4 border-l-4 rounded-bl-lg; }
+.scanner-corner-br { @apply bottom-0 right-0 border-b-4 border-r-4 rounded-br-lg; }
+
+.scan-mask {
+  @apply absolute inset-0 bg-slate-900/40 z-10 pointer-events-none;
+  mask-image: linear-gradient(black, black), linear-gradient(black, black);
+  mask-clip: content-box, border-box;
+  mask-composite: exclude;
+  padding: calc(50% - (var(--scan-size) / 2));
+}
+
+#reader video {
+  @apply w-full h-full object-cover rounded-[2rem];
+}
