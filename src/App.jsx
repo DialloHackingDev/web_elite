@@ -112,8 +112,8 @@ const ResultDisplay = React.memo(({ result, onReset }) => {
               <div className="aspect-[3/4] bg-slate-100 dark:bg-slate-800 rounded-3xl border-2 border-dashed border-slate-200 dark:border-slate-700 flex flex-col items-center justify-center p-6 text-center group relative overflow-hidden">
                 <FileText className="w-16 h-16 text-slate-200 dark:text-slate-700 mb-4 transition-transform group-hover:scale-110" />
                 <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-tight">Visualisation du document certifié</p>
-                {result.ipfsUrl && (
-                  <a href={result.ipfsUrl} target="_blank" rel="noreferrer" className="absolute inset-0 bg-slate-900/90 flex flex-col items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-all font-black text-sm gap-2">
+                {((result.documentUrl || result.ipfsUrl)) && (
+                  <a href={result.documentUrl || result.ipfsUrl} target="_blank" rel="noreferrer" className="absolute inset-0 bg-slate-900/90 flex flex-col items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-all font-black text-sm gap-2">
                     <ExternalLink className="w-5 h-5 text-indigo-400" />
                     VOIR LE PDF
                   </a>
