@@ -8,8 +8,12 @@ import {
   Activity, ChevronRight, Menu, X, Sun, Moon, Printer, Share2, ShieldAlert
 } from 'lucide-react';
 
-// Use Vite env var when available, otherwise fallback to localhost
-const API_BASE_URL = (import.meta.env && import.meta.env.VITE_API_BASE_URL) || 'http://localhost:3000/api';
+// Use Vite env var when available, otherwise fallback to local backend during development
+const isLocalNetworkHost = typeof window !== 'undefined' && /(localhost|127\.0\.0\.1|192\.168\.|10\.|172\.(1[6-9]|2[0-9]|3[0-1])\.)/.test(window.location.hostname);
+const DEFAULT_API_BASE_URL = isLocalNetworkHost
+  ? `http://${window.location.hostname}:3000/api`
+  : 'https://naissancechain-backend-production.up.railway.app/api';
+const API_BASE_URL = (import.meta.env && import.meta.env.VITE_API_BASE_URL) || DEFAULT_API_BASE_URL;
 
 // --- COMPOSANTS UI RÉUTILISABLES ---
 
